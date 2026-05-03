@@ -1,9 +1,17 @@
 # ⚡ Tracker-blue ⚡
-Script de rastreo y saturación Bluetooth.
+Script avanzado en Python para monitoreo y saturación Bluetooth.
 
-## 🚀 Uso
-1. python saturador.py
+## 🛠️ Requisitos
+* **Termux** con Bluez (pkg install bluez)
+* **Root** (Para usar la antena hci0)
 
-## 🔐 Credenciales
-* **User:** atack.sh
-* **Pass:** 3tack.sh
+## 🚀 Instalación y Uso
+```bash
+git clone https://github.com/Hak3r-arch/Tracker-blue
+cd Tracker-blue
+python saturador.py
+```
+
+## 🔐 Acceso al Script
+* **Usuario:** atack.sh
+* **Contraseña:** 3tack.sh
