@@ -1,24 +1,22 @@
 
 # ⚡ BLUEH-SATUR v4.0 ⚡
 
-Herramienta avanzada de inundación de paquetes Bluetooth (L2CAP/RFCOMM) diseñada para auditorías de red en Termux.
+Herramienta avanzada de saturación Bluetooth para Termux.
 
-## 🛠️ Instalación y Uso Rápido
-Pega este comando para instalar todas las dependencias y arrancar la herramienta:
-
+## 🛠️ Instalación y Uso
 ```bash
-pkg update && pkg upgrade -y && pkg install git python -y && git clone https://github.com/Hak3r-arch/Blueh-satur.git && cd Blueh-satur && chmod +x setup.sh flooder.py && ./setup.sh
+pkg update && pkg upgrade -y && pkg install git python -y
+git clone https://github.com/Hak3r-arch/Blueh-satur.git
+cd Blueh-satur
+chmod +x setup.sh flooder.py
+./setup.sh
 ```
 
 ## 🚀 Características
-- **Escaneo de Objetivos:** Localiza dispositivos con Bluetooth activo.
-- **Ataque de Saturación:** Envío masivo de paquetes para pruebas de estrés.
-- **Interfaz Profesional:** Panel de estadísticas en tiempo real con la librería Rich.
-- **Automatización:** El archivo 'setup.sh' configura el entorno por vos.
+- Escaneo de dispositivos en tiempo real.
+- Flood de paquetes L2CAP/RFCOMM.
+- Interfaz gráfica con estadísticas.
 
 ## 👤 Autor
 Desarrollado por **Hak3r-arch**.
-
-## ⚠️ Aviso Legal
-Este software es para uso educativo y pruebas en entornos controlados. El autor no se hace responsable por el uso indebido de esta herramienta.
 
