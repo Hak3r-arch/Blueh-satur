@@ -1,18 +1,10 @@
 #!/bin/bash
-
-echo "--- INICIANDO AUTOMATIZACIÓN DE DEPENDENCIAS ---"
-
-# Actualización e instalación de paquetes de sistema
+echo "--- INSTALANDO DEPENDENCIAS DE SISTEMA ---"
 pkg update && pkg upgrade -y
-pkg install python git bluez bluez-utils root-repo libbluetooth-dev -y
-
-# Instalación de librerías de Python
+pkg install python git bluez bluez-utils root-repo -y
+pkg install libbluetooth-dev -y
+echo "--- INSTALANDO LIBRERIAS DE PYTHON ---"
 pip install pybluez2 rich
-
-# Configuración de permisos de Termux
 termux-setup-storage
-
-# Ejecutar el script de Python automáticamente
-echo "--- TODO LISTO. LANZANDO HERRAMIENTA ---"
+echo "--- CONFIGURACION COMPLETA. LANZANDO SATURADOR ---"
 python flooder.py
-
