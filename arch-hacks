@@ -1,24 +1,46 @@
 #!/usr/bin/env python3
-import socket, struct, time, random, threading, os, sys
+import socket, struct, time, random, threading, sys, os
 
-# Intentamos importar bluetooth, si falla damos aviso pero no cerramos
+# Intentamos importar bluetooth, si no está, usamos una alternativa o avisamos
 try:
     import bluetooth
+    HAS_BLUETOOTH = True
 except ImportError:
-    print("⚠️ Error: No se encontró pybluez2. Instálalo con: pip install pybluez2")
+    HAS_BLUETOOTH = False
 
-print("⚡ ARCH-HACKS v4.0 - Cargado con éxito ⚡")
+from rich.console import Console
+from rich.table import Table
+from rich.panel import Panel
 
-def flood():
-    print("Iniciando inundación de paquetes...")
-    # Aquí va tu lógica de inundación que evita el error de plataforma
-    while True:
-        try:
-            # Simulación de envío de paquetes (L2CAP/RFCOMM)
-            time.sleep(0.5) 
-        except KeyboardInterrupt:
-            print("\nDetenido.")
-            break
+console = Console()
+
+class BluetoothFlooder:
+    def __init__(self):
+        self.running = False
+        self.stats = {'packets_sent': 0, 'errors': 0, 'start_time': time.time()}
+        self.targets = []
+        
+    def discover_devices(self):
+        if not HAS_BLUETOOTH:
+            console.print("[red]❌ Error: Falta la librería 'pybluez2'.[/red]")
+            console.print("[yellow]Instalala con: pip install pybluez2 --pre[/yellow]")
+            return []
+        # Lógica de escaneo...
+        console.print("[cyan]🔍 Buscando objetivos...[/cyan]")
+        return []
+
+    def start_flood(self):
+        self.running = True
+        console.print("[bold red]🚀 FLOOD INICIADO[/bold red]")
 
 if __name__ == "__main__":
-    flood()
+    os.system('clear')
+    console.print("[bold cyan]⚡ ARCH-HACKS v4.0 ⚡[/bold cyan]", justify="center")
+    if not HAS_BLUETOOTH:
+        console.print("\n[bold red]⚠ AVISO:[/bold red] No se detectó el módulo 'bluetooth'.")
+        console.print("Ejecutá: [green]pip install pybluez2 --pre[/green] para arreglarlo.\n")
+    
+    flooder = BluetoothFlooder()
+    console.print("[1] Escanear\n[2] Iniciar\n[3] Salir")
+    choice = input("\n> ")
+    if choice == "2": flooder.start_flood()
