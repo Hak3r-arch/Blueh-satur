@@ -1,19 +1,10 @@
-# ⚡ RXB3-SATURATOR v5.0 ⚡
+# ⚡ RXB3-SATURATOR v6.8 ⚡
+Auditoría Bluetooth para Termux.
 
-Saturador Bluetooth nativo optimizado para Termux. Esta versión soluciona el error de 'ModuleNotFoundError' al eliminar dependencias externas.
+### 📋 REQUISITOS
+- Bluetooth del sistema **encendido**.
+- Permiso de 'Dispositivos cercanos' activado en Termux.
 
-### 🛠️ INSTALACIÓN
-1. `pkg update && pkg upgrade -y`
-2. `pkg install python git bluez -y`
-3. `pip install rich`
-
-### 🚀 EJECUCIÓN
-```bash
-git clone https://github.com/Hak3r-arch/Blueh-satur.git
-cd Blueh-satur
-chmod +x Rxb3-Saturator
-python Rxb3-Saturator
-```
-
----
-**Autor:** Rxb3l1ons (Hak3r-arch)
+### 🚀 USO
+1. `cd Blueh-satur`
+2. `python Rxb3-Saturator`
