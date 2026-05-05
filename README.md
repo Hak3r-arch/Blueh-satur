@@ -1,46 +1,52 @@
 
 # ⚡ BLUEH-SATUR v4.0 ⚡
 
-Herramienta potente de saturación y stress-test para protocolos Bluetooth (L2CAP/RFCOMM), optimizada para entornos Termux.
+Herramienta profesional de saturación Bluetooth (L2CAP/RFCOMM) optimizada para Termux.
 
 ---
 
-### 🛠️ INSTALACIÓN PASO A PASO
-Copiá y pegá estos comandos uno por uno en tu terminal:
+### 📋 REQUISITOS DEL SISTEMA
+Para que la herramienta funcione correctamente, tu sistema debe tener instalados los siguientes paquetes:
 
-1. **Actualizar el sistema:**
+1. **Paquetes de Termux:** `python`, `git`, `bluez`, `bluez-utils`, `libbluetooth-dev`.
+2. **Librerías de Python:** `pybluez2`, `rich`.
+3. **Permisos:** Acceso al almacenamiento y Bluetooth activado.
+
+---
+
+### 🛠️ INSTALACIÓN Y EJECUCIÓN
+Copiá y pegá los comandos en este orden:
+
+1. **Instalar dependencias de sistema:**
 ```bash
 pkg update && pkg upgrade -y
+pkg install python git bluez bluez-utils root-repo -y
+pkg install libbluetooth-dev -y
 ```
 
-2. **Instalar dependencias necesarias:**
+2. **Instalar librerías de Python:**
 ```bash
-pkg install git python bluez bluez-utils -y
+pip install pybluez2 rich
 ```
 
-3. **Clonar el repositorio:**
+3. **Configurar almacenamiento y permisos:**
+```bash
+termux-setup-storage
+```
+
+4. **Clonar y Ejecutar:**
 ```bash
 git clone https://github.com/Hak3r-arch/Blueh-satur.git
-```
-
-4. **Entrar a la carpeta y dar permisos:**
-```bash
 cd Blueh-satur
-chmod +x setup.sh inundador.py
-```
-
-5. **Ejecutar la herramienta:**
-```bash
+chmod +x setup.sh flooder.py
 ./setup.sh
 ```
 
 ---
 
-### 🚀 CARACTERÍSTICAS
-- **Escaneo dinámico:** Localiza dispositivos activos con su dirección MAC y nombre.
-- **Flood Selectivo:** Permite atacar objetivos específicos o realizar un flood masivo.
-- **Interfaz UI:** Panel de estadísticas en tiempo real (Paquetes enviados, errores, tiempo).
-- **Auto-Config:** El script 'setup.sh' instala automáticamente las librerías de Python faltantes.
+### 🚀 ESTRUCTURA DEL PROYECTO
+- **flooder.py:** El núcleo de la herramienta (Script principal).
+- **setup.sh:** Automatizador de instalación y arranque.
 
 ---
 
@@ -50,5 +56,5 @@ Desarrollado por: **Hak3r-arch**
 ---
 
 ### ⚠️ AVISO LEGAL
-Esta herramienta ha sido creada con fines estrictamente educativos y para pruebas de penetración autorizadas. El uso de este software contra dispositivos sin el consentimiento previo del propietario es ilegal. El autor no se responsabiliza por el mal uso de esta herramienta.
+Uso exclusivo para pruebas en dispositivos propios. El autor no se hace responsable por el uso indebido de esta herramienta.
 
