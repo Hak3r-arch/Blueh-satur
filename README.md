@@ -1,31 +1,17 @@
 
-# ⚡ BLUEH-SATUR v4.0 ⚡
+# ⚡ RXB3-SATURATOR v5.0 ⚡
 
-Saturador Bluetooth avanzado para Termux.
+Saturador Bluetooth nativo para Termux (Sin errores de módulos).
 
-### 🛠️ INSTALACIÓN (EVITAR ERRORES)
-Copiá y pegá estos comandos para instalar las dependencias correctamente:
-
-1. **Instalar paquetes de sistema:**
-```bash
-pkg update && pkg upgrade -y
-pkg install python git bluez libbluetooth-dev -y
-```
-
-2. **Instalar librerías de Python:**
-```bash
-pip install rich
-pip install pybluez2 --pre
-```
-
-### 🚀 EJECUCIÓN
-```bash
-git clone https://github.com/Hak3r-arch/Blueh-satur.git
-cd Blueh-satur
-chmod +x arch-hacks
-python arch-hacks
-```
+### 🛠️ INSTALACIÓN
+1. `pkg update && pkg upgrade -y`
+2. `pkg install python git bluez -y`
+3. `pip install rich`
+4. `git clone https://github.com/Hak3r-arch/Blueh-satur.git`
+5. `cd Blueh-satur`
+6. `chmod +x Rxb3-Saturator`
+7. `python Rxb3-Saturator`
 
 ---
-**Autor:** Hak3r-arch
+**Autor:** Rxb3l1ons
 

